@@ -76,7 +76,7 @@ export const siteConfig: SiteConfig = {
 		logo: {
 			type: "image",
 			value: "assets/images/mayrain.png",
-			alt: "🍀",
+			alt: "🌧️",
 		},
 		// 导航栏标题
 		title: "Mayrain",
