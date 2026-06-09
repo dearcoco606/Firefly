@@ -1,5 +1,5 @@
 ---
-title: 托尔斯泰
+title: Obsidian + Firefly + GitHub 自动发布系统（macOS LaunchAgent）
 published: 2026-06-10
 update: 2026-06-10
 description: 这是一套实现「Obsidian 写作 → 自动同步 Firefly 博客 → GitHub 自动部署」的完整方案，核心目标是：**写完 Markdown 后自动发布，无需手动 git 操作**
