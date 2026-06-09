@@ -1,6 +1,6 @@
 import { coverImageConfig } from "../config/coverImageConfig";
 import { siteConfig } from "../config/siteConfig";
-import type { ImageFormat } from "../types/config";
+import type { ImageFormat, RandomCoverImageApi } from "../types/config";
 
 const { randomCoverImage } = coverImageConfig;
 
@@ -24,6 +24,12 @@ function appendSeedParam(apiUrl: string, hash: number): string {
 	if (hash === 0) return apiUrl;
 	const separator = apiUrl.includes("?") ? "&" : "?";
 	return `${apiUrl}${separator}v=${hash}`;
+}
+
+function normalizeRandomCoverImageApi(api: RandomCoverImageApi) {
+	return typeof api === "string"
+		? { url: api, type: "image" as const }
+		: api;
 }
 
 /**
@@ -52,9 +58,10 @@ export function processCoverImageSync(
 		return "";
 	}
 
-	// 始终使用第一个API，失败时由客户端按顺序尝试后续API
 	const hash = getSeedHash(seed);
-	return appendSeedParam(randomCoverImage.apis[0], hash);
+	const firstApi = normalizeRandomCoverImageApi(randomCoverImage.apis[0]);
+
+	return appendSeedParam(firstApi.url, hash);
 }
 
 /**
@@ -66,13 +73,19 @@ export function processCoverImageSync(
 export function getApiUrlList(
 	image: string | undefined,
 	seed?: string,
-): string[] {
+): RandomCoverImageApi[] {
 	if (image !== "api" || !randomCoverImage.enable || !randomCoverImage.apis) {
 		return [];
 	}
 
 	const hash = getSeedHash(seed);
-	return randomCoverImage.apis.map((api) => appendSeedParam(api, hash));
+	return randomCoverImage.apis.map((api) => {
+		const normalized = normalizeRandomCoverImageApi(api);
+		return {
+			...normalized,
+			url: appendSeedParam(normalized.url, hash),
+		};
+	});
 }
 
 /**

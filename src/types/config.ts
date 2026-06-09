@@ -405,11 +405,19 @@ export type FooterConfig = {
 	customHtml?: string; // 自定义HTML内容，用于添加备案号等信息
 };
 
+export type RandomCoverImageApi =
+	| string
+	| {
+		url: string;
+		type?: "image" | "json"; // image: 直接返回图片 URL，json: 返回 JSON 需要解析图片 URL
+		jsonPath?: string; // 解析 JSON 返回值中的图片 URL 字段，例如 "message"
+	};
+
 export type CoverImageConfig = {
 	enableInPost: boolean; // 是否在文章详情页显示封面图
 	randomCoverImage: {
 		enable: boolean; // 是否启用随机图功能
-		apis: string[]; // 随机图API列表
+		apis: RandomCoverImageApi[]; // 随机图API列表
 		fallback?: string; // API失败时的回退图片路径（相对于src目录或以/开头的public目录路径）
 		showLoading?: boolean; // 是否显示加载动画
 	};

@@ -3,7 +3,11 @@ import { Picture } from "astro:assets";
 import * as path from "node:path";
 import type { ImageMetadata } from "astro";
 import { coverImageConfig } from "@/config";
-import type { ImageFormat, ResponsiveImageLayout } from "@/types/config";
+import type {
+	ImageFormat,
+	ResponsiveImageLayout,
+	RandomCoverImageApi,
+} from "@/types/config";
 import {
 	getFallbackFormat,
 	getImageFormats,
@@ -24,7 +28,7 @@ interface Props {
 	layout?: ResponsiveImageLayout;
 	formats?: ImageFormat[];
 	loading?: "lazy" | "eager";
-	apiUrls?: string[];
+	apiUrls?: RandomCoverImageApi[];
 }
 
 const {
@@ -45,13 +49,10 @@ const fallbackFormat = getFallbackFormat();
 const className = Astro.props.class;
 
 // 判断图片类型
-const isLocal = !(
-	src.startsWith("/") ||
-	src.startsWith("http") ||
-	src.startsWith("https") ||
-	src.startsWith("data:")
-);
-const isPublic = src.startsWith("/");
+const isLocal =
+	src &&
+	!(src.startsWith("/") || src.startsWith("http") || src.startsWith("https") || src.startsWith("data:"));
+const isPublic = !!src && src.startsWith("/");
 
 // 动态导入本地图片
 let img: ImageMetadata | null = null;
@@ -208,9 +209,9 @@ const remoteReferrerPolicy =
 	)}
 
 	<!-- 远程图片 -->
-	{!isLocal && (
+	{!isLocal && (src || apiUrls.length > 0) && (
 		<img
-			src={isPublic ? url(src) : src}
+			src={src ? (isPublic ? url(src) : src) : undefined}
 			alt={alt || ""}
 			class={imageClass}
 			style={imageStyle}
@@ -299,51 +300,108 @@ const remoteReferrerPolicy =
 			if (!img) return;
 
 			// 解析API URL列表，用于按顺序重试
-			let apiUrls: string[] = [];
-			let currentApiIndex = 1; // 0号已由服务端设为img.src
+			let apiUrls: Array<{ url: string; type?: string; jsonPath?: string } | string> = [];
 			const apiUrlsAttr = container.getAttribute('data-api-urls');
 			if (apiUrlsAttr) {
 				try { apiUrls = JSON.parse(apiUrlsAttr); } catch (_e) { /* ignore */ }
 			}
 
-			const hideLoading = () => {
-				container.setAttribute('data-loading', 'false');
-				img.style.opacity = '1';
-				const placeholder = container.querySelector('.lqip-placeholder') as HTMLElement | null;
-				if (placeholder) placeholder.classList.add('loaded');
-			};
+			let currentApiIndex = 0;
+			if (img.src && apiUrls.length > 0) {
+				const firstApi = apiUrls[0];
+				const firstApiUrl = typeof firstApi === 'string' ? firstApi : firstApi.url;
+			const firstApiType = typeof firstApi === 'string' ? 'image' : firstApi.type || 'image';
+			if (img.src === firstApiUrl && firstApiType === 'image') {
+				currentApiIndex = 1;
+			}
+		}
 
-			const showError = () => {
-				container.setAttribute('data-loading', 'false');
-				container.setAttribute('data-error', 'true');
-				const placeholder = container.querySelector('.lqip-placeholder') as HTMLElement | null;
-				if (placeholder) placeholder.classList.add('loaded');
-			};
+		const hideLoading = () => {
+			container.setAttribute('data-loading', 'false');
+			img.style.opacity = '1';
+			const placeholder = container.querySelector('.lqip-placeholder') as HTMLElement | null;
+			if (placeholder) placeholder.classList.add('loaded');
+		};
 
-			// 统一的错误处理：尝试下一个API或显示回退
-			const onError = () => {
-				if (img.dataset.remote !== 'true') return;
+		const showError = () => {
+			container.setAttribute('data-loading', 'false');
+			container.setAttribute('data-error', 'true');
+			const placeholder = container.querySelector('.lqip-placeholder') as HTMLElement | null;
+			if (placeholder) placeholder.classList.add('loaded');
+		};
 
-				if (currentApiIndex < apiUrls.length) {
-					// 先绑定好事件，再更换src
+		const getJsonValue = (data: any, path?: string) => {
+			if (!path) {
+				return typeof data === 'string' ? data : data?.message;
+			}
+			return path.split('.').reduce((value, key) => {
+				return value && typeof value === 'object' ? value[key] : undefined;
+			}, data);
+		};
+
+		const assignImageSrc = (src: string) => {
+			if (!src) {
+				showError();
+				return;
+			}
+
+			img.addEventListener('load', hideLoading, { once: true });
+			img.addEventListener('error', onError, { once: true });
+			img.src = src;
+		};
+
+		const loadApi = () => {
+			if (currentApiIndex >= apiUrls.length) {
+				showError();
+				return;
+			}
+
+			const api = apiUrls[currentApiIndex];
+			const apiUrl = typeof api === 'string' ? api : api.url;
+			const apiType = typeof api === 'string' ? 'image' : api.type || 'image';
+
+			if (apiType === 'json') {
+				currentApiIndex += 1;
+				fetch(apiUrl, { mode: 'cors' })
+					.then((response) => {
+						if (!response.ok) throw new Error('Network response was not ok');
+						return response.json();
+					})
+					.then((data) => {
+						const imageUrl = getJsonValue(data, typeof api === 'string' ? undefined : api.jsonPath);
+						if (!imageUrl) throw new Error('Image URL not found in JSON');
+						assignImageSrc(imageUrl);
+					})
+					.catch(() => {
+						loadApi();
+					});
+			} else {
+				assignImageSrc(apiUrl);
+				currentApiIndex += 1;
+			}
+		};
+
+		const onError = () => {
+			if (currentApiIndex < apiUrls.length) {
+				loadApi();
+			} else {
+				showError();
+			}
+		};
+
+		if (img.src) {
+				if (img.complete) {
+					if (img.naturalWidth > 0) {
+						hideLoading();
+					} else {
+						onError();
+					}
+				} else {
 					img.addEventListener('load', hideLoading, { once: true });
 					img.addEventListener('error', onError, { once: true });
-					img.src = apiUrls[currentApiIndex];
-					currentApiIndex++;
-				} else {
-					showError();
 				}
-			};
-
-			if (img.complete) {
-				if (img.naturalWidth > 0) {
-					hideLoading();
-				} else {
-					onError();
-				}
-			} else {
-				img.addEventListener('load', hideLoading, { once: true });
-				img.addEventListener('error', onError, { once: true });
+			} else if (apiUrls.length > 0) {
+				loadApi();
 			}
 		});
 	}
