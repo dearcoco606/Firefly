@@ -1,11 +1,11 @@
 // 字体配置
 export const fontConfig = {
 	// 是否启用自定义字体功能
-	enable: false,
+	enable: true,
 	// 是否预加载字体文件
 	preload: true,
 	// 当前选择的字体，支持多个字体组合
-	selected: ["misans-regular"],
+	selected: ["lxgw-bright","noto-sans-kr"],
 
 	// 字体列表
 	// 推荐使用可靠的 CDN 服务商提供的字体链接，它天然做了按需分片加载，且性能较好
@@ -69,6 +69,34 @@ export const fontConfig = {
 			weight: 600,
 			display: "swap" as const,
 		},
+		
+		// 霞鹜文楷 Bright
+		"lxgw-bright": {
+			id: "lxgw-bright",
+			name: "LXGW Bright",
+			src: "https://cn-font.claude-code-best.win/packages/lxgwwenkaibright/dist/LXGWBright-Regular/result.css",
+			family: "LXGW Bright",  // 不是 LXGWWenKaiScreen
+			weight: 400,
+			display: "swap" as const,
+		},
+
+		// 霞鹜文楷屏幕版
+		"lxgw-screen": {
+			id: "lxgw-screen",
+			name: "LXGW WenKai Screen",
+			src: "https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-web@1.522.0/lxgwwenkaiscreen/result.css",
+			family: "LXGW WenKai Screen",  // 必须与 @font-face 完全一致
+			weight: 400,
+			display: "swap" as const,
+		},
+		// 韩文字体
+		"noto-sans-kr": {
+			id: "noto-sans-kr",
+			name: "Noto Sans KR",
+			src: "https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap",
+			family: "Noto Sans KR",
+			display: "swap" as const,
+			},
 	},
 
 	// 全局字体回退

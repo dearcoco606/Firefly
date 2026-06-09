@@ -38,6 +38,7 @@
     "@iconify-json/mingcute": "^1.2.7",
     "@iconify-json/simple-icons": "^1.2.85",
     "@iconify/utils": "^3.1.1",
+    "@meting/core": "^1.6.1",
     "@napi-rs/wasm-runtime": "^1.1.4",
     "@swup/astro": "^1.8.0",
     "@tailwindcss/typography": "^0.5.16",
