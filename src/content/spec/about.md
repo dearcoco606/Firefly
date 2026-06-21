@@ -1,29 +1,19 @@
 # 关于我 / About Me
 
-你好！我是 **夏叶** ，一个在数字世界中默默无闻的一片叶子。
+你好，我是五月雨。
 
-## 🛠️ 关于本站
+「五月雨（さみだれ）」是日语中梅雨时节连绵细雨的说法，经常用于形容事物如细雨般持续不断、缓慢推进。
 
-这个网站使用 **Astro** 框架构建，采用了 [Firefly](https://github.com/CuteLeaf/Firefly) 模板，Firefly 是基于 [Fuwari](https://github.com/saicaca/fuwari) 的二次开发。
+我很喜欢这个词。
 
-**Firefly** 是一款基于 Astro 框架和 Fuwari 模板开发的清新美观且现代化个人博客主题模板，专为技术爱好者和内容创作者设计。该主题融合了现代 Web 技术栈，提供了丰富的功能模块和高度可定制的界面，让您能够轻松打造出专业且美观的个人博客网站。
+比起短暂而热烈的倾诉，我更向往五月雨那样的存在——不急不缓，细水长流，在漫长时光里默默留下痕迹。
 
+这个博客，是我记录与分享的地方。这里有学习中的笔记、技术上的探索、阅读后的思考，也有生活中值得驻足的瞬间。或许每一篇文章都只是微小的一滴雨，但当文字一点点积累，终会汇聚成属于自己的轨迹。
 
-**🖥️在线预览： [Firefly - Demo site](https://firefly.cuteleaf.cn/)**
+我希望自己的文字也能像五月雨一样，细腻而持久地记录所见、所闻、所思、所感；也希望某天回望这些记录时，能看见一路走来的成长与变化。
 
-**🏠我的博客： [https://blog.cuteleaf.cn](https://blog.cuteleaf.cn/)**
-
-**📝Firefly使用文档： [https://docs-firefly.cuteleaf.cn](https://docs-firefly.cuteleaf.cn/)**
-
-**⭐Firefly开源地址：[https://github.com/CuteLeaf/Firefly](https://github.com/CuteLeaf/Firefly)** 
-
-**⭐Fuwari开源地址：[https://github.com/saicaca/fuwari](https://github.com/saicaca/fuwari)**
-
-::github{repo="CuteLeaf/Firefly"}
-
-::github{repo="saicaca/fuwari"}
 
 ---
 
-*感谢你的来访！希望在这里能找到对你有用的内容！*
+*感谢你的来访！愿这里的某些内容，恰好能为你带来一点帮助、一点启发，或一次短暂而愉快的停留。*
 
