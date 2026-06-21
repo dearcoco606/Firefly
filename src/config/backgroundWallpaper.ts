@@ -42,8 +42,8 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
 			"assets/images/DesktopWallpaper/h1.avif",
-			// "assets/images/DesktopWallpaper/h2.avif",
-			// "assets/images/DesktopWallpaper/h3.avif",
+			"assets/images/DesktopWallpaper/h2.heic",
+			"assets/images/DesktopWallpaper/h3.heic",
 			// "assets/images/DesktopWallpaper/h4.avif",
 			// "assets/images/DesktopWallpaper/d5.avif",
 			// "assets/images/DesktopWallpaper/d6.avif",
@@ -52,6 +52,7 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// mobile: "assets/images/MobileWallpaper/m1.avif",
 		mobile: [
 			"assets/images/MobileWallpaper/hh1.avif",
+			"assets/images/MobileWallpaper/hh2.jpg",
 			// "assets/images/MobileWallpaper/m2.avif",
 			// "assets/images/MobileWallpaper/m3.avif",
 			// "assets/images/MobileWallpaper/m4.avif",
