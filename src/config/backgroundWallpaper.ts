@@ -42,8 +42,8 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
 			"assets/images/DesktopWallpaper/h1.avif",
-			"assets/images/DesktopWallpaper/h2.heic",
-			"assets/images/DesktopWallpaper/h3.heic",
+			"assets/images/DesktopWallpaper/h2.avif",
+			"assets/images/DesktopWallpaper/h3.avif",
 			// "assets/images/DesktopWallpaper/h4.avif",
 			// "assets/images/DesktopWallpaper/d5.avif",
 			// "assets/images/DesktopWallpaper/d6.avif",
@@ -77,10 +77,9 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 			titleSize: "3.8rem",
 			// 主页横幅副标题
 			subtitle: [
-				"Rain remembers what we forget.",
-				"Every raindrop carries a secret.",
-				// "In the quiet after the rain.",
-				"The sound of rain needs no translation."
+				"活在海水的深蓝中.",
+				"连雨不知春去，一晴方觉夏深",
+				"やわらかな五月雨の 吹き抜けた春の風が."
 				// "Amidst Silenced Stars, I Deep Sleep",
 				// "Upon Lighted Fyrefly, I Soon Gaze",
 				// "From Undreamt Night, I Thence Shine",
