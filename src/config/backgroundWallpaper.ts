@@ -42,8 +42,8 @@ export const backgroundWallpaper: BackgroundWallpaperConfig = {
 		// desktop: "assets/images/DesktopWallpaper/d1.avif",
 		desktop: [
 			"assets/images/DesktopWallpaper/h1.avif",
-			"assets/images/DesktopWallpaper/h2.avif",
-			"assets/images/DesktopWallpaper/h3.avif",
+			// "assets/images/DesktopWallpaper/h2.avif",
+			// "assets/images/DesktopWallpaper/h3.avif",
 			// "assets/images/DesktopWallpaper/h4.avif",
 			// "assets/images/DesktopWallpaper/d5.avif",
 			// "assets/images/DesktopWallpaper/d6.avif",
